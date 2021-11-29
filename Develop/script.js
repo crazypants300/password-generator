@@ -9,15 +9,35 @@ function randomGenerator(length) {
   return pass;
 }
 
+function randomGeneratorSpecial(length) {
+  var specialCharacters = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
+  var result = length;
+  for (var i = 0; i < length.length; i++) {
+    result += specialCharacters.charAt(Math.floor(Math.random() * length.length)) 
+  }
+  return result;
+}
+
 function generatePassword() {
   var pwLength = window.prompt("Enter amount of characters(8-128):");
   if (pwLength >= 8 && pwLength <= 128){
-    // creates a random string equal to the length they inputed
-    return randomGenerator(pwLength);
+    pwSpecial = window.prompt("Should it contain special characters?(yes/no)");
+    if (pwSpecial === "yes" || pwSpecial === "YES") {
+      return randomGeneratorSpecial(randomGenerator(pwLength));
+    } else {
+      // creates a random string equal to the length they inputed
+      return randomGenerator(pwLength);
+    }
   } else {
-    return "failed";
+    return invalidResponse("Please select a number between 8 and 128.");
   }
 }
+
+function invalidResponse(str) {
+  window.alert(str); 
+  return generatePassword();
+}
+
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
@@ -28,7 +48,6 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
 // Add event listener to generate button
